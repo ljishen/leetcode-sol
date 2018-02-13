@@ -1,39 +1,44 @@
 // Question: https://leetcode.com/problems/longest-palindromic-substring/
 
 public class LongestPalindromicSubstring {
-    public String longestPalindrome(String s) {
-        int start = 0;
-        int end = 1;
-        for (int i = 1; i < s.length(); i++) {
-            int oddOffset = 1;
-            while (i - oddOffset >= 0
-                    && i + oddOffset < s.length()
-                    && s.charAt(i + oddOffset) == s.charAt(i - oddOffset)) {
-                oddOffset++;
-            }
-
-            int evenOffset = 1;
-            while (i - evenOffset >= 0
-                    && i + evenOffset - 1 < s.length()
-                    && s.charAt(i + evenOffset - 1) == s.charAt(i - evenOffset)) {
-                evenOffset++;
-            }
-
-            if (oddOffset == 1 && evenOffset == 1) {
-                continue;
-            }
-
-            int offset = Math.max(evenOffset, oddOffset);
-
-            int curStart = i - offset + 1;
-            int curEnd = i + offset - (evenOffset > oddOffset ? 1 : 0);
-
-            if (curEnd - curStart > end - start) {
-                start = curStart;
-                end = curEnd;
-            }
-        }
-
-        return s.substring(start, end);
+  public String longestPalindrome(String s) {
+    if (s == null || s.length() == 0) {
+      return "";
     }
+
+    int bestHead = 0;
+    int bestTail = 0;
+
+    int mid = 0;
+    int head = 0;
+    int tail = 0;
+    boolean same = true;
+
+    char[] cs = s.toCharArray();
+
+    while (mid < cs.length) {
+      head++;
+      if (head < cs.length && cs[head - 1] == cs[head] && same) {
+        continue;
+      }
+
+      tail--;
+      if (head < cs.length && tail >= 0 && cs[head] == cs[tail]) {
+        same = false;
+        continue;
+      }
+
+      if (head - tail - 1 > bestHead - bestTail) {
+        bestHead = head;
+        bestTail = tail + 1;
+      }
+
+      mid++;
+      head = mid;
+      tail = mid;
+      same = true;
+    }
+
+    return s.substring(bestTail, bestHead);
+  }
 }
