@@ -1,43 +1,54 @@
-// Question: https://leetcode.com/problems/merge-two-sorted-lists/
+// Question: https://leetcode.com/problems/merge-two-sorted-lists/description/
 
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
+ * Definition for singly-linked list. public class ListNode { int val; ListNode next; ListNode(int
+ * x) { val = x; } }
  */
 public class MergeTwoSortedLists {
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode cl1 = l1;
-        ListNode cl2 = l2;
+  public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    ListNode head1 = l1;
+    ListNode head2 = l2;
 
-        ListNode root = null;
-        ListNode prev = null;
-        while (true) {
-            ListNode nextNode;
-            if ((cl1 != null && cl2 != null && cl1.val <= cl2.val) || cl2 == null) {
-                nextNode = cl1;
-                cl1 = cl1 != null ? cl1.next : null;
-            } else {
-                nextNode = cl2;
-                cl2 = cl2 != null ? cl2.next : null;
-            }
+    ListNode head = null;
+    ListNode prev = null;
 
-            if (root == null) {
-                root = nextNode;
-                prev = nextNode;
-            } else {
-                prev.next = nextNode;
-                prev = nextNode;
-            }
+    while (head1 != null && head2 != null) {
+      ListNode cur = null;
 
-            if (cl1 == null && cl2 == null) {
-                break;
-            }
-        }
+      if (head1.val < head2.val) {
+        cur = head1;
+        head1 = head1.next;
+      } else {
+        cur = head2;
+        head2 = head2.next;
+      }
 
-        return root;
+      if (head == null) {
+        head = cur;
+      }
+
+      if (prev != null) {
+        prev.next = cur;
+      }
+
+      prev = cur;
     }
+
+    ListNode remain = null;
+    if (head1 != null) {
+      remain = head1;
+    } else if (head2 != null) {
+      remain = head2;
+    }
+
+    if (remain != null) {
+      if (head == null) {
+        head = remain;
+      } else {
+        prev.next = remain;
+      }
+    }
+
+    return head;
+  }
 }

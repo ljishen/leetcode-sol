@@ -1,29 +1,33 @@
 // Question: https://leetcode.com/problems/valid-parentheses/
 
 public class ValidParentheses {
-    public boolean isValid(String s) {
-        Stack<Character> st = new Stack<>();
-        Map<Character, Character> cMap = new HashMap<>();
-        cMap.put(')', '(');
-        cMap.put(']', '[');
-        cMap.put('}', '{');
+  public boolean isValid(String s) {
+    char[] stack = new char[s.length() / 2 + 1];
+    int end = -1;
 
-        for (int i = 0; i < s.length(); i++) {
-            char n = s.charAt(i);
+    char[] cs = s.toCharArray();
+    for (char c : cs) {
+      if (end >= 0 && stack[end] == c) {
+        end--;
+        continue;
+      }
 
-            if (st.empty()) {
-                st.push(n);
-                continue;
-            }
+      end++;
+      if (end == stack.length) {
+        return false;
+      }
 
-            Character c = cMap.get(n);
-            if (c == null) {
-                st.push(n);
-            } else if (st.pop() != c) {
-                return false;
-            }
-        }
-
-        return st.empty();
+      if (c == '[') {
+        stack[end] = ']';
+      } else if (c == '{') {
+        stack[end] = '}';
+      } else if (c == '(') {
+        stack[end] = ')';
+      } else {
+        return false;
+      }
     }
+
+    return end == -1;
+  }
 }
