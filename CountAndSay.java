@@ -1,32 +1,37 @@
-// Question: https://leetcode.com/problems/count-and-say/
+// Question: https://leetcode.com/problems/count-and-say/description/
 
 public class CountAndSay {
-    public String countAndSay(int n) {
-        String curDigits = "1";
+  public String countAndSay(int n) {
+    StringBuilder sb = new StringBuilder("1");
 
-        int remaining = n - 1;
-        while (remaining > 0) {
-            int count = 1;
-            int i = 1;
+    int count = 0;
+    int idx = n;
 
-            StringBuilder newDigits = new StringBuilder();
-            while (i <= curDigits.length()) {
-                char prevDigit = curDigits.charAt(i - 1);
-                if (i == curDigits.length() || curDigits.charAt(i) != prevDigit) {
-                    newDigits.append(String.valueOf(count));
-                    newDigits.append(prevDigit);
-                    count = 1;
-                } else {
-                    count++;
-                }
-                i++;
-            }
+    while (idx > 1) {
+      StringBuilder gen = new StringBuilder();
 
-            curDigits = newDigits.toString();
-
-            remaining--;
+      char cur = ' ';
+      for (int i = 0; i < sb.length(); i++) {
+        char c = sb.charAt(i);
+        if (c == cur) {
+          count++;
+          continue;
         }
 
-        return curDigits;
+        if (cur != ' ') {
+          gen.append(count).append(cur);
+        }
+
+        cur = c;
+        count = 1;
+      }
+
+      gen.append(count).append(cur);
+
+      sb = gen;
+      idx--;
     }
+
+    return sb.toString();
+  }
 }
