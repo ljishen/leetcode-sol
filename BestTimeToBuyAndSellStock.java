@@ -1,21 +1,25 @@
-// Question: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+// Question: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
 
 public class BestTimeToBuyAndSellStock {
-    public int maxProfit(int[] prices) {
-        if (prices.length == 0) {
-            return 0;
-        }
+  public int maxProfit(int[] prices) {
+    int maxDiff = 0;
+    int min = -1;
 
-        int[] minimums = new int[prices.length - 1];
+    for (int p : prices) {
+      if (min == -1) {
+        min = p;
+        continue;
+      }
 
-        int profit = 0;
-        for (int i = 1; i < prices.length; i++) {
-            minimums[i - 1] = i >= 2 ? Math.min(minimums[i - 2], prices[i - 1]) : prices[i - 1];
-            int possibleProfit = prices[i] - minimums[i - 1];
-            if (possibleProfit > profit) {
-                profit = possibleProfit;
-            }
-        }
-        return profit;
+      if (p > min) {
+        maxDiff = Math.max(maxDiff, p - min);
+      }
+
+      if (p < min) {
+        min = p;
+      }
     }
+
+    return maxDiff;
+  }
 }
