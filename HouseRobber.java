@@ -1,31 +1,27 @@
-// Question: https://leetcode.com/problems/house-robber/
+// Question: https://leetcode.com/problems/house-robber/description/
 
 public class HouseRobber {
-    public int rob(int[] nums) {
-        if (nums.length == 0) {
-            return 0;
-        }
-
-        int[] moneys = new int[nums.length];
-
-        if (nums.length >= 1) {
-            moneys[0] = nums[0];
-        }
-
-        if (nums.length >= 2) {
-            moneys[1] = nums[0] > nums[1] ? nums[0] : nums[1];
-        }
-
-        if (nums.length >= 3) {
-            int sum = nums[0] + nums[2];
-            moneys[2] = sum > nums[1] ? sum : nums[1];
-        }
-
-        for (int i = 3; i < nums.length; i++) {
-            int sum = moneys[i - 2] + nums[i];
-            moneys[i] = sum > moneys[i - 1] ? sum : moneys[i - 1];
-        }
-
-        return moneys[nums.length - 1];
+  public int rob(int[] nums) {
+    if (nums == null || nums.length == 0) {
+      return 0;
     }
+
+    int[] robbed = new int[nums.length];
+    robbed[0] = nums[0];
+
+    if (nums.length == 1) {
+      return robbed[0];
+    } else {
+      robbed[1] = Math.max(nums[0], nums[1]);
+      if (nums.length == 2) {
+        return robbed[1];
+      }
+    }
+
+    for (int i = 2; i < nums.length; i++) {
+      robbed[i] = Math.max(robbed[i - 1], robbed[i - 2] + nums[i]);
+    }
+
+    return robbed[nums.length - 1];
+  }
 }

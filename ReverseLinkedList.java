@@ -1,31 +1,25 @@
-// Question: https://leetcode.com/problems/reverse-linked-list/
+// Question: https://leetcode.com/problems/reverse-linked-list/description/
 
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
+ * Definition for singly-linked list. public class ListNode { int val; ListNode next; ListNode(int
+ * x) { val = x; } }
  */
 public class ReverseLinkedList {
-    public ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode cur = head;
-
-        while (cur != null) {
-            if (prev == null) {
-                prev = cur;
-                cur = cur.next;
-                prev.next = null;
-            } else {
-                ListNode nxt = cur.next;
-                cur.next = prev;
-                prev = cur;
-                cur = nxt;
-            }
-        }
-
-        return prev;
+  public ListNode reverseList(ListNode head) {
+    if (head == null) {
+      return null;
     }
+
+    ListNode prev = null;
+    ListNode cur = head;
+
+    while (cur != null) {
+      ListNode next = cur.next;
+      cur.next = prev;
+      prev = cur;
+      cur = next;
+    }
+
+    return prev;
+  }
 }
